@@ -2,6 +2,8 @@ local BasePlugin = require "kong.plugins.base_plugin"
 local responses = require "kong.tools.responses"
 local jwt_decoder = require "kong.plugins.jwt.jwt_parser"
 local req_set_header = ngx.req.set_header
+local ngx_re_gmatch = ngx.re.gmatch
+
 
 local JwtClaimsHeadersHandler = BasePlugin:extend()
 
@@ -63,5 +65,8 @@ function JwtClaimsHeadersHandler:access(conf)
     end
   end
 end
+
+-- set the plugin priority, which determines plugin execution order
+JwtClaimsHeadersHandler.PRIORITY = 900
 
 return JwtClaimsHeadersHandler
